@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shreeniwas Jagdale — #ShreeTries</title>
+<title>Shreeniwas Jagdale · #ShreeTries</title>
 <meta name="description" content="Shreeniwas Jagdale. Builder & business generalist. 2X Ironman 70.3 finisher. Founding Brand GM at Seekho. Built for distance, wired for speed." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -340,6 +340,81 @@
 
   /* Stagger highlights/strikes — delays set via JS for reliability */
 
+  /* SKILL BUBBLES — shown in Polished mode, hidden in Real mode */
+  .skill-bubbles {
+    display: flex; flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .hero[data-state="real"] .skill-bubbles { display: none; }
+  .bubble {
+    position: relative;
+    display: inline-flex; align-items: center;
+    padding: 10px 18px;
+    background: var(--paper);
+    color: var(--navy);
+    border: 2px solid var(--navy);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: clamp(12px, 1.1vw, 14px);
+    letter-spacing: 0.02em;
+    box-shadow: 3px 3px 0 var(--navy);
+    transition: transform 0.18s var(--ease-elastic), box-shadow 0.18s, background 0.18s;
+    cursor: default;
+  }
+  .bubble:nth-child(1) { background: #FFF3C4; }
+  .bubble:nth-child(2) { background: #FFE2C4; }
+  .bubble:nth-child(3) { background: #DCEFCB; }
+  .bubble:nth-child(4) { background: #C7E5E5; }
+  .bubble:nth-child(5) { background: #F8D6D6; }
+  .bubble:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--navy);
+    background: var(--yellow);
+  }
+  /* Tooltip on hover */
+  .bubble::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: var(--navy);
+    color: var(--cream);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.45;
+    width: max-content;
+    max-width: 280px;
+    white-space: normal;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s, transform 0.18s;
+    box-shadow: 4px 4px 0 var(--ink);
+    z-index: 50;
+  }
+  .bubble::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    border: 6px solid transparent;
+    border-top-color: var(--navy);
+    opacity: 0;
+    transition: opacity 0.18s, transform 0.18s;
+    z-index: 50;
+  }
+  .bubble:hover::after,
+  .bubble:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
   /* HERO PHOTO SLOTS */
   .hero-right .photo-slot {
     position: relative;
@@ -581,61 +656,53 @@
     margin-top: 3px;
   }
 
-  /* Journey CTAs — Resume + Marketing Portfolio download buttons */
+  /* Journey CTAs — uniform pair of pill buttons */
   .journey-cta {
-    margin-top: clamp(32px, 5vh, 56px);
+    margin-top: clamp(36px, 5vh, 60px);
     display: flex;
     flex-wrap: wrap;
-    gap: clamp(14px, 2vw, 22px);
+    gap: 18px;
     justify-content: center;
   }
   .cta-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 14px;
-    padding: 18px 26px;
-    background: var(--cream);
+    width: 280px;
+    height: 64px;
+    background: var(--paper);
     color: var(--navy);
     border: 3px solid var(--navy);
-    border-radius: var(--radius);
-    box-shadow: 6px 6px 0 var(--navy);
+    border-radius: 999px;
+    box-shadow: 5px 5px 0 var(--navy);
+    font-family: inherit;
     font-weight: 800;
-    letter-spacing: -0.01em;
     text-decoration: none;
+    letter-spacing: -0.01em;
     transition: transform 0.18s var(--ease-elastic), box-shadow 0.18s, background 0.18s;
-    min-width: 240px;
   }
   .cta-btn:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 9px 9px 0 var(--navy);
+    box-shadow: 8px 8px 0 var(--navy);
     background: var(--yellow);
   }
   .cta-btn:active {
     transform: translate(3px, 3px);
     box-shadow: 0 0 0 var(--navy);
   }
-  .cta-btn .cta-icon { font-size: 28px; line-height: 1; }
-  .cta-btn .cta-text { display: flex; flex-direction: column; line-height: 1.15; text-align: left; flex: 1; }
-  .cta-btn .cta-line1 {
-    font-size: 11px; letter-spacing: 0.15em;
-    color: var(--muted); font-weight: 700;
-    text-transform: uppercase;
-  }
-  .cta-btn .cta-line2 {
-    font-size: 17px; font-weight: 900;
-    color: var(--navy);
-  }
+  .cta-btn .cta-icon { font-size: 22px; line-height: 1; }
+  .cta-btn .cta-label { font-size: 16px; font-weight: 900; color: var(--navy); }
   .cta-btn .cta-arrow {
-    font-size: 22px;
-    color: var(--mustard);
+    font-size: 18px;
+    color: var(--clay);
     font-weight: 900;
     transition: transform 0.18s;
   }
-  .cta-btn:hover .cta-arrow { transform: translateY(3px); }
-  .cta-primary { background: var(--mustard); }
-  .cta-primary:hover { background: var(--yellow); }
-  .cta-primary .cta-line1 { color: rgba(26,34,56,0.65); }
-  .cta-secondary .cta-arrow { color: var(--clay); }
+  .cta-btn:hover .cta-arrow { transform: translate(3px, -3px); }
+  @media (max-width: 600px) {
+    .cta-btn { width: 100%; max-width: 320px; }
+  }
 
   /* =====================================================
      GAME SECTION
@@ -862,26 +929,26 @@
   }
   .life-card-wide:hover { background: linear-gradient(135deg, var(--yellow), #FFE9C0); }
 
-  /* Platform badge — makes linked cards clearly clickable */
+  /* Platform badge — just the platform name + arrow, clean CTA */
   .life-card.has-link { position: relative; }
   .life-card.has-link::after {
-    content: 'OPEN ON ' attr(data-platform) ' \2197';
+    content: attr(data-platform) ' \2197';
     position: absolute;
     top: 12px; right: 12px;
-    font-size: 9px; font-weight: 800;
+    font-size: 10px; font-weight: 800;
     letter-spacing: 0.12em;
-    padding: 5px 8px;
+    padding: 5px 9px;
     background: var(--navy);
     color: var(--mustard);
     border-radius: 4px;
     line-height: 1;
     pointer-events: none;
-    transition: background 0.18s, color 0.18s;
+    transition: background 0.18s, color 0.18s, transform 0.18s;
   }
   .life-card.has-link[data-platform="Strava"]::after  { background: #FC4C02; color: #fff; }
   .life-card.has-link[data-platform="Goodreads"]::after { background: #553B08; color: #F4F1EA; }
   .life-card.has-link[data-platform="Substack"]::after  { background: #FF6719; color: #fff; }
-  .life-card.has-link:hover::after { transform: translateY(-1px); }
+  .life-card.has-link:hover::after { transform: translate(2px, -2px); }
   .life-icon {
     font-size: 32px;
     margin-bottom: 8px;
@@ -1060,12 +1127,21 @@
 
         <!-- POLISHED -->
         <div class="bio bio-polished">
-          Hi, I am Shreeniwas Jagdale, Builder &amp; business generalist at heart; 4 years across growth, strategy, operations, and GTM. Most recently, a Founding Brand GM at <a href="https://seekho.in" target="_blank" rel="noopener"><strong>Seekho</strong></a>, reporting directly to the CEO and driving the company's highest-priority bet: the first-ever national brand campaign. Before that, at <a href="https://www.itcportal.com" target="_blank" rel="noopener"><strong>ITC</strong></a>, worked shoulder-to-shoulder with the COO on business operations and process excellence — built process + people systems across large manufacturing systems. AI-native operator who ships products in days, not quarters. 2X Ironman 70.3 finisher, drummer, trekker and swimmer off the clock — <a href="https://www.iitm.ac.in" target="_blank" rel="noopener">IIT Madras'</a> Institute Blues Award for all-rounder excellence; built for hard problems, big calls, and a good time.
+          Hi, I am Shreeniwas Jagdale, Builder &amp; business generalist at heart; 4 years across growth, marketing, strategy, operations, and GTM in consumer space. Most recently, a Founding Brand &amp; Organic Growth GM at <a href="https://seekho.in" target="_blank" rel="noopener"><strong>Seekho</strong></a>, reporting directly to the CEO and drove the company's highest-priority bet: the organic acquisition charter. Before that, at <a href="https://www.itcportal.com" target="_blank" rel="noopener"><strong>ITC</strong></a>, worked shoulder-to-shoulder with the COO on business operations and process excellence, building process + people systems across large manufacturing units. AI-native operator who ships products in days, not quarters. 2X Ironman 70.3 finisher, drummer, trekker and swimmer off the clock. <a href="https://www.iitm.ac.in" target="_blank" rel="noopener">IIT Madras'</a> Institute Blues Award for all-rounder excellence; built for hard problems, big calls, and fun vibes.
+        </div>
+
+        <!-- Skill bubbles (visible only in Polished mode, hoverable) -->
+        <div class="skill-bubbles" aria-label="Skill areas">
+          <div class="bubble" data-tip="Built Seekho's organic acquisition charter; led category-level jumps in CTR, CAC and retention.">Growth</div>
+          <div class="bubble" data-tip="Founding Brand GM at Seekho. Built brand division from 0; led ₹40Cr TV + OTT national campaign.">Marketing</div>
+          <div class="bubble" data-tip="GTM playbooks, category positioning and CXO-level priority bets at Seekho + ITC.">Strategy</div>
+          <div class="bubble" data-tip="BizOps with the COO at ITC. People + process systems across large manufacturing units.">Ops</div>
+          <div class="bubble" data-tip="Cross-vertical product chops at Seekho across content, perf and organic surfaces.">Product</div>
         </div>
 
         <!-- REAL -->
         <div class="bio bio-real" id="bioReal">
-          <span class="strike">Hi, I am Shreeniwas Jagdale,</span> <span class="hl">Shree</span> <span class="strike">Builder &amp; business generalist at heart; 4 years across growth, strategy, operations, and GTM.</span> <span class="hl">Gets shit done.</span> <span class="strike">Most recently, a Founding Brand GM at Seekho, reporting directly to the CEO and driving the company's highest-priority bet: the first-ever national brand campaign.</span> <span class="hl">High Ownership in Uncertainty.</span> <span class="strike">Before that, at ITC, worked shoulder-to-shoulder with the COO on business operations and process excellence — built process + people systems across large manufacturing systems.</span> <span class="hl">Execution at Scale.</span> <span class="strike">AI-native operator who ships products in days, not quarters with high quality.</span> <span class="hl">Aggressive Experimentation.</span> <span class="strike">2X Ironman 70.3 finisher, 10+ running races,</span> <span class="hl">Endurance &amp; Discipline.</span> <span class="strike">drummer</span> <span class="hl">Consistent.</span> <span class="strike">, trekker</span> <span class="hl">Curious.</span> <span class="strike">and swimmer off the clock — IIT Madras' Institute Blues Award for all-rounder excellence;</span> <span class="hl">Long-term Thinking.</span> <span class="strike">built for big calls, and a good time.</span> <span class="hl">Reliable Team Player.</span>
+          <span class="strike">Hi, I am Shreeniwas Jagdale,</span> <span class="hl">Shree</span> <span class="strike">Builder &amp; business generalist at heart; 4 years across growth, marketing, strategy, operations, and GTM in consumer space.</span> <span class="hl">Gets shit done.</span> <span class="strike">Most recently, a Founding Brand &amp; Organic Growth GM, reporting directly to the CEO and drove the company's highest-priority bet: The organic acquisition charter.</span> <span class="hl">High Ownership in Uncertainty.</span> <span class="strike">Before that, at ITC, worked shoulder-to-shoulder with the COO on business operations and process excellence, building process + people systems across large manufacturing units.</span> <span class="hl">Execution at Scale.</span> <span class="strike">AI-native operator who ships products in days, not quarters with high quality.</span> <span class="hl">Aggressive Experimentation.</span> <span class="strike">2X Ironman 70.3 finisher, 10+ running races,</span> <span class="hl">Endurance &amp; Discipline.</span> <span class="strike">drummer</span> <span class="hl">Consistent.</span> <span class="strike">, trekker</span> <span class="hl">Curious.</span> <span class="strike">and swimmer off the clock. IIT Madras' Institute Blues Award for all-rounder excellence;</span> <span class="hl">Long-term Thinking.</span> <span class="strike">built for big calls, and fun vibes.</span> <span class="hl">Reliable Team Player.</span>
         </div>
       </div>
 
@@ -1132,17 +1208,17 @@
       <div class="phase phase-1" data-phase="0">
         <div class="phase-city">Satara</div>
         <div class="phase-emoji">🌾</div>
-        <div class="phase-year">1999 — 2015</div>
+        <div class="phase-year">1999 – 2015</div>
         <div class="phase-level">OPEN WORLD</div>
         <div class="phase-card">
           <ul class="phase-bullets">
             <li>Explored everything I could get access to</li>
-            <li>Sports, academics, competitions — tried it all</li>
+            <li>Sports, academics, competitions. Tried it all</li>
             <li>Tier-3 city kept me close to real problems</li>
           </ul>
           <div class="phase-aka">
             <div class="phase-aka-label">AKA</div>
-            <div class="phase-aka-text">Kept my parents busy with regular school visits — mostly complaints. Eventually dropped out of school for a stretch.</div>
+            <div class="phase-aka-text">Kept my parents busy with regular school visits, mostly complaints. Eventually dropped out of school for a stretch.</div>
           </div>
         </div>
       </div>
@@ -1151,7 +1227,7 @@
       <div class="phase phase-2" data-phase="1">
         <div class="phase-city">Pune</div>
         <div class="phase-emoji">📚</div>
-        <div class="phase-year">2015 — 2017</div>
+        <div class="phase-year">2015 – 2017</div>
         <div class="phase-level">THE GRIND</div>
         <div class="phase-card">
           <ul class="phase-bullets">
@@ -1161,7 +1237,7 @@
           </ul>
           <div class="phase-aka">
             <div class="phase-aka-label">AKA</div>
-            <div class="phase-aka-text">Got humbled by mock tests. Accidentally bulked 20 kgs — had to fix it later.</div>
+            <div class="phase-aka-text">Got humbled by mock tests. Accidentally bulked 20 kgs, had to fix it later.</div>
           </div>
         </div>
       </div>
@@ -1170,7 +1246,7 @@
       <div class="phase phase-3" data-phase="2">
         <div class="phase-city">IITM, Chennai</div>
         <div class="phase-emoji">🏛️</div>
-        <div class="phase-year">2017 — 2022</div>
+        <div class="phase-year">2017 – 2022</div>
         <div class="phase-level">TRANSFORMATION</div>
         <div class="phase-card">
           <ul class="phase-bullets">
@@ -1189,17 +1265,17 @@
       <div class="phase phase-4" data-phase="3">
         <div class="phase-city">ITC, Bengaluru</div>
         <div class="phase-emoji">⚙️</div>
-        <div class="phase-year">2022 — 2025</div>
+        <div class="phase-year">2022 – 2025</div>
         <div class="phase-level">SYSTEM WORLD</div>
         <div class="phase-card">
           <ul class="phase-bullets">
-            <li>Tried to EXCEL processes (literally)</li>
+            <li>EXCELLed processes (Literally)</li>
             <li>BizOps, analytics, systems, L&amp;D</li>
-            <li>Understood scale — people, machines, decisions</li>
+            <li>Understood scale: people, machines, decisions</li>
           </ul>
           <div class="phase-aka">
             <div class="phase-aka-label">AKA</div>
-            <div class="phase-aka-text">Ate enough biscuits to realize I used to run sub-20 5K — led to a Half Ironman.</div>
+            <div class="phase-aka-text">Ate enough biscuits to realise I used to run sub-20 5K, which led to an Ironman 70.3.</div>
           </div>
         </div>
       </div>
@@ -1208,7 +1284,7 @@
       <div class="phase phase-5" data-phase="4">
         <div class="phase-city">Seekho, Bengaluru</div>
         <div class="phase-emoji">🔥</div>
-        <div class="phase-year">2025 — 2026</div>
+        <div class="phase-year">2025 – 2026</div>
         <div class="phase-level">CHAOS &amp; CREATION</div>
         <div class="phase-card">
           <ul class="phase-bullets">
@@ -1227,15 +1303,15 @@
 
     <!-- Downloads / CTAs -->
     <div class="journey-cta">
-      <a href="resume.pdf" download class="cta-btn cta-primary">
+      <a href="https://drive.google.com/drive/folders/1SFZ9wZ9mczJ_lBIJZg1qQ6uHJZt9zQ5H" target="_blank" rel="noopener" class="cta-btn">
         <span class="cta-icon">📄</span>
-        <span class="cta-text"><span class="cta-line1">Download</span><span class="cta-line2">Resume</span></span>
-        <span class="cta-arrow">↓</span>
+        <span class="cta-label">Resume</span>
+        <span class="cta-arrow">↗</span>
       </a>
-      <a href="marketing-portfolio.pdf" download class="cta-btn cta-secondary">
+      <a href="https://docs.google.com/presentation/d/1w9V3KvnCDh_vcjgYeMzaqsp2FlrrSbM2x81A6Dex1X4/edit?usp=sharing" target="_blank" rel="noopener" class="cta-btn">
         <span class="cta-icon">📊</span>
-        <span class="cta-text"><span class="cta-line1">View</span><span class="cta-line2">Marketing Portfolio</span></span>
-        <span class="cta-arrow">↓</span>
+        <span class="cta-label">Marketing Portfolio</span>
+        <span class="cta-arrow">↗</span>
       </a>
     </div>
   </div>
@@ -1257,7 +1333,7 @@
 <section id="life-outside" class="life-outside section-pad scroll-margin">
   <div class="container">
     <h2 class="section-title">Life Outside Work</h2>
-    <p class="section-sub">The hours that don't show up on a CV — but absolutely show up in the work.</p>
+    <p class="section-sub">The hours that don't show up on a CV but absolutely show up in the work.</p>
 
     <div class="life-layout">
 
@@ -1305,50 +1381,50 @@
         <a href="https://www.strava.com/athletes/69022794" target="_blank" rel="noopener" class="life-card life-card-wide has-link" data-platform="Strava">
           <div class="life-icon">🏅</div>
           <div class="life-title">Endurance Sports</div>
-          <div class="life-stat">2X Ironman 70.3 · 10+ races · Hyrox · Yoddha</div>
-          <div class="life-desc">Swim → Bike → Run. Long, slow, repeat. The clearest mirror I've ever held up to myself — and the most honest meetings I take all week.</div>
+          <div class="life-stat">2X Ironman 70.3 · 10+ races · Yoddha</div>
+          <div class="life-desc">Swim, Bike, Run. Long, slow, repeat.</div>
         </a>
 
         <div class="life-card">
           <div class="life-icon">⛰️</div>
           <div class="life-title">Trekking</div>
-          <div class="life-stat">30+ Sahyadri treks &amp; counting</div>
-          <div class="life-desc">Born in Shivaji Maharaj's territory. 30+ Sahyadri treks and counting. Himalayas on the radar.</div>
+          <div class="life-stat">Sahyadris to Himalayas</div>
+          <div class="life-desc">Born in Shivaji Maharaj's heartland. 30+ treks and counting. Himalayas on the radar.</div>
         </div>
 
         <div class="life-card">
           <div class="life-icon">🥁</div>
           <div class="life-title">Drumming</div>
-          <div class="life-stat">Trinity Grade 1 in 3 months</div>
-          <div class="life-desc">Started from a YouTube tutorial. Cleared Trinity Grade 1 within 3 months. Many more grades to unlock.</div>
+          <div class="life-stat">self-taught, certified</div>
+          <div class="life-desc">YT Tutorials to Trinity Grade 1.</div>
         </div>
 
         <a href="https://www.goodreads.com/user/show/164990215-shreeniwas-jagdale" target="_blank" rel="noopener" class="life-card has-link" data-platform="Goodreads">
           <div class="life-icon">📚</div>
           <div class="life-title">Reading</div>
-          <div class="life-stat">fiction over self-help</div>
-          <div class="life-desc">I read mostly fiction and say no to self-help. I read to build worldviews — the kind Claude or ChatGPT can't manufacture for you.</div>
+          <div class="life-stat">drip system, not binge</div>
+          <div class="life-desc">Fiction, History, Anthropology.</div>
         </a>
 
         <a href="https://substack.com/@shreeniwasjagdale" target="_blank" rel="noopener" class="life-card has-link" data-platform="Substack">
           <div class="life-icon">✍️</div>
           <div class="life-title">Writing</div>
           <div class="life-stat">notes → essays → ?</div>
-          <div class="life-desc">Writing is how I figure out what I think. Newsletter brewing.</div>
+          <div class="life-desc">Writing is how I figure out what I think.</div>
         </a>
 
         <div class="life-card">
           <div class="life-icon">🤿</div>
           <div class="life-title">Scuba Diving</div>
-          <div class="life-stat">PADI certified · Open Water Diver</div>
-          <div class="life-desc">A reminder that the world has rooms I haven't walked into yet — and some are 18 metres below sea level.</div>
+          <div class="life-stat">PADI Open Water</div>
+          <div class="life-desc">Always chasing depths, 18m approved.</div>
         </div>
 
         <div class="life-card">
           <div class="life-icon">🍳</div>
           <div class="life-title">Cooking</div>
           <div class="life-stat">Satara on a plate, in BLR</div>
-          <div class="life-desc">Making sure every friend of mine in Bengaluru tastes what Satara food actually looks like.</div>
+          <div class="life-desc">Come home to try Satari Mutton.</div>
         </div>
 
       </div>
@@ -1428,7 +1504,7 @@
 
       <div>
         <h2 class="contact-heading">Let's <span class="accent">build something</span>.</h2>
-        <p class="contact-sub">I'm between chapters — exploring where my next 4 years go. If you're building something where speed + ownership + endurance matter, or you just want to swap notes on training, books, or a half-baked idea — open a thread.</p>
+        <p class="contact-sub">If you're building something where speed, ownership and endurance matter, or you just want to swap notes on training, books, or a half-baked idea, open a thread.</p>
 
         <div class="contact-links">
           <a href="mailto:shrinu6174@gmail.com" class="contact-link">
