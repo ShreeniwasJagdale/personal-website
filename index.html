@@ -273,8 +273,26 @@
     grid-column: 1;
   }
   @media (max-width: 980px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .hero-right { position: static; }
+    /* Use flex with order so we can interleave hero-left/hero-right children */
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .hero-left, .hero-right { display: contents; }
+    .hero-title       { order: 1; }
+    .toggle           { order: 2; }
+    .hero-right .photo-slot   { order: 3; }
+    .bio              { order: 4; }
+    .skill-bubbles    { order: 5; }
+    .hero-right .socials      { order: 6; }
+    /* Smaller photo on mobile — sits right under the toggle so the toggle effect is visible in the first fold */
+    .hero-right .photo-slot {
+      max-width: 280px;
+      width: 100%;
+      margin: 8px auto;
+      box-shadow: 6px 6px 0 var(--mustard), 6px 6px 0 2px var(--navy);
+    }
   }
 
   .bio {
@@ -410,9 +428,15 @@
     z-index: 50;
   }
   .bubble:hover::after,
-  .bubble:hover::before {
+  .bubble:hover::before,
+  .bubble.tipped::after,
+  .bubble.tipped::before {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+  }
+  /* On touch — tap reveals the tooltip until another tap dismisses it */
+  @media (pointer: coarse) {
+    .bubble { cursor: pointer; }
   }
 
   /* HERO PHOTO SLOTS */
@@ -483,9 +507,17 @@
 
   /* Social icons inside hero-right */
   .hero-right .socials {
-    display: flex; gap: 12px; flex-wrap: wrap;
+    display: flex; gap: 12px; flex-wrap: nowrap;
     justify-content: center;
     margin: 0;
+  }
+  @media (max-width: 980px) {
+    .hero-right .socials { gap: 8px; }
+    .hero-right .socials a {
+      width: clamp(36px, 9vw, 44px);
+      height: clamp(36px, 9vw, 44px);
+    }
+    .hero-right .socials svg { width: 18px; height: 18px; }
   }
   .socials a {
     width: 48px; height: 48px;
@@ -557,8 +589,32 @@
     opacity: 0.4;
   }
   @media (max-width: 900px) {
-    .phases { grid-template-columns: 1fr; gap: 28px; }
+    /* Horizontal swipe carousel on mobile — way easier than scrolling 5 stacked cards */
+    .phases {
+      grid-template-columns: repeat(5, 84vw);
+      gap: 16px;
+      overflow-x: auto;
+      overflow-y: visible;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 8vw 24px;
+      margin: 0 calc(-1 * clamp(20px, 5vw, 60px));
+      scrollbar-width: none;
+    }
+    .phases::-webkit-scrollbar { display: none; }
     .phases::before { display: none; }
+    .phase { scroll-snap-align: center; max-width: 84vw; }
+  }
+  @media (max-width: 900px) {
+    .journey .section-sub::after {
+      content: ' ← swipe →';
+      color: var(--mustard);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      font-size: 0.85em;
+      display: block;
+      margin-top: 6px;
+    }
   }
 
   .phase {
@@ -780,7 +836,12 @@
     align-self: start;
   }
   @media (max-width: 980px) {
-    .reel-wrap { position: static; max-width: 420px; margin: 0 auto; }
+    .reel-wrap {
+      position: static;
+      max-width: min(92vw, 540px);
+      margin: 0 auto;
+    }
+    .reel-frame { max-height: 86vh; }
   }
   .reel-frame {
     width: 100%;
@@ -1127,7 +1188,7 @@
 
         <!-- POLISHED -->
         <div class="bio bio-polished">
-          Hi, I am Shreeniwas Jagdale, Builder &amp; business generalist at heart; 4 years across growth, marketing, strategy, operations, and GTM in consumer space. Most recently, a Founding Brand &amp; Organic Growth GM at <a href="https://seekho.in" target="_blank" rel="noopener"><strong>Seekho</strong></a>, reporting directly to the CEO and drove the company's highest-priority bet: the organic acquisition charter. Before that, at <a href="https://www.itcportal.com" target="_blank" rel="noopener"><strong>ITC</strong></a>, worked shoulder-to-shoulder with the COO on business operations and process excellence, building process + people systems across large manufacturing units. AI-native operator who ships products in days, not quarters. 2X Ironman 70.3 finisher, drummer, trekker and swimmer off the clock. <a href="https://www.iitm.ac.in" target="_blank" rel="noopener">IIT Madras'</a> Institute Blues Award for all-rounder excellence; built for hard problems, big calls, and fun vibes.
+          Hi, I am Shreeniwas Jagdale, Builder &amp; business generalist at heart; 4 years across growth, marketing, strategy, operations, and GTM in consumer space. Most recently, a Founding Brand &amp; Organic Growth GM at <a href="https://seekho.in" target="_blank" rel="noopener"><strong>Seekho</strong></a>, reporting directly to the CEO and drove the company's highest-priority bet: the organic acquisition charter. Before that, at <a href="https://www.itcportal.com" target="_blank" rel="noopener"><strong>ITC</strong></a>, worked shoulder-to-shoulder with the COO on business operations and process excellence, building process + people systems across large manufacturing units. AI-native operator who ships products in days, not quarters. 2X Ironman 70.3 finisher, drummer, trekker and swimmer off the clock. <a href="https://www.iitm.ac.in" target="_blank" rel="noopener"><strong>IIT Madras'</strong></a> Institute Blues Award for all-rounder excellence; built for hard problems, big calls, and fun vibes.
         </div>
 
         <!-- Skill bubbles (visible only in Polished mode, hoverable) -->
@@ -1303,7 +1364,7 @@
 
     <!-- Downloads / CTAs -->
     <div class="journey-cta">
-      <a href="https://drive.google.com/drive/folders/1SFZ9wZ9mczJ_lBIJZg1qQ6uHJZt9zQ5H" target="_blank" rel="noopener" class="cta-btn">
+      <a href="https://drive.google.com/file/d/1dEVSCyQEa7mKU_xN39RbyqQvD7wOPO_g/view?usp=sharing" target="_blank" rel="noopener" class="cta-btn">
         <span class="cta-icon">📄</span>
         <span class="cta-label">Resume</span>
         <span class="cta-arrow">↗</span>
@@ -1389,7 +1450,7 @@
           <div class="life-icon">⛰️</div>
           <div class="life-title">Trekking</div>
           <div class="life-stat">Sahyadris to Himalayas</div>
-          <div class="life-desc">Born in Shivaji Maharaj's heartland. 30+ treks and counting. Himalayas on the radar.</div>
+          <div class="life-desc">30+ Treks &amp; Counting.</div>
         </div>
 
         <div class="life-card">
@@ -1423,7 +1484,7 @@
         <div class="life-card">
           <div class="life-icon">🍳</div>
           <div class="life-title">Cooking</div>
-          <div class="life-stat">Satara on a plate, in BLR</div>
+          <div class="life-stat">Satara's taste in BLR</div>
           <div class="life-desc">Come home to try Satari Mutton.</div>
         </div>
 
@@ -1632,6 +1693,29 @@
     if (labelLeft) ['click','touchend'].forEach(evt => labelLeft.addEventListener(evt, (e)=>{ if(e){e.preventDefault();} setToggle('polished'); }, { passive: false }));
     if (labelRight) ['click','touchend'].forEach(evt => labelRight.addEventListener(evt, (e)=>{ if(e){e.preventDefault();} setToggle('real'); }, { passive: false }));
   }, 'bio-toggle');
+
+  // ============== SKILL BUBBLES — tap to toggle tooltip on touch ==============
+  safe(() => {
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    document.querySelectorAll('.bubble').forEach(b => {
+      b.addEventListener('click', (e) => {
+        if (isTouch) {
+          e.preventDefault();
+          // close other open bubbles
+          document.querySelectorAll('.bubble.tipped').forEach(o => { if (o !== b) o.classList.remove('tipped'); });
+          b.classList.toggle('tipped');
+        }
+      });
+    });
+    // Close any open tip when tapping elsewhere
+    if (isTouch) {
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.bubble')) {
+          document.querySelectorAll('.bubble.tipped').forEach(b => b.classList.remove('tipped'));
+        }
+      });
+    }
+  }, 'skill-bubbles');
 
   // ============== PHOTO SLOT — hide placeholder when image loads ==============
   safe(() => {
