@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shreeniwas Jagdale — #ShreeTries</title>
+<meta name="description" content="Shreeniwas Jagdale. Builder & business generalist. 2X Ironman 70.3 finisher. Founding Brand GM at Seekho. Built for distance, wired for speed." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Press+Start+2P&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     DESIGN TOKENS
+  ===================================================== */
+  :root {
+    --cream: #FAF6EB;
+    --cream-deep: #F2E9D2;
+    --paper: #FDFBF3;
+    --ink: #0F1422;
+    --navy: #1A2238;
+    --muted: #6B7080;
+    --line: #E5DDC8;
+    --line-soft: #EFE7D2;
+    --yellow: #FFEB47;
+    --yellow-soft: #FFF06B;
+    --yellow-glow: rgba(255, 235, 71, 0.5);
+    --mustard: #D4A332;
+    --forest: #3F6B40;
+    --clay: #B8744A;
+    --red: #B53A26;
+    --teal: #4A7E7E;
+    --shadow-sm: 0 2px 0 var(--ink);
+    --shadow-md: 4px 4px 0 var(--ink);
+    --shadow-lg: 8px 8px 0 var(--ink);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --container: 1280px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* =====================================================
+     RESET
+  ===================================================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(26,34,56,0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  ul { list-style: none; }
+
+  /* =====================================================
+     LAYOUT
+  ===================================================== */
+  .container {
+    max-width: var(--container);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 60px);
+    position: relative;
+  }
+  section { position: relative; z-index: 1; }
+  .section-pad { padding: clamp(60px, 10vh, 120px) 0; }
+
+  /* =====================================================
+     NAV
+  ===================================================== */
+  .nav {
+    position: sticky; top: 0;
+    z-index: 100;
+    background: rgba(250, 246, 235, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px clamp(20px, 5vw, 60px);
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .brand {
+    font-weight: 800;
+    font-size: clamp(20px, 2.4vw, 26px);
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .brand-hash { color: var(--mustard); }
+  .nav-links {
+    display: flex; gap: clamp(20px, 3.5vw, 48px);
+    align-items: center;
+  }
+  .nav-links a {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--muted);
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-links a.active { color: var(--navy); }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 2px;
+    background: var(--mustard);
+  }
+  .mobile-toggle {
+    display: none;
+    width: 40px; height: 40px;
+    flex-direction: column;
+    justify-content: center; align-items: center;
+    gap: 5px;
+  }
+  .mobile-toggle span {
+    width: 22px; height: 2px;
+    background: var(--navy);
+    transition: transform 0.25s, opacity 0.25s;
+    border-radius: 1px;
+  }
+  .mobile-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .mobile-toggle.open span:nth-child(2) { opacity: 0; }
+  .mobile-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 760px) {
+    .mobile-toggle { display: flex; }
+    .nav-links {
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 16px 0;
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.25s;
+    }
+    .nav-links.open { opacity: 1; pointer-events: auto; transform: none; }
+    .nav-links a {
+      padding: 14px clamp(20px, 5vw, 60px);
+      border-top: 1px solid var(--line-soft);
+    }
+    .nav-links a:first-child { border-top: none; }
+  }
+
+  /* =====================================================
+     HERO
+  ===================================================== */
+  .hero {
+    padding: clamp(40px, 6vh, 80px) 0 clamp(48px, 7vh, 96px);
+  }
+  .hero-container { width: 100%; }
+  .hero-title {
+    font-weight: 900;
+    font-size: clamp(34px, 5.4vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+  .hero-title .accent {
+    display: inline-block;
+    position: relative;
+  }
+  .hero-title .accent::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 6%;
+    height: 28%;
+    background: var(--yellow);
+    z-index: -1;
+    transform: skew(-3deg);
+    opacity: 0.6;
+  }
+
+  /* TOGGLE */
+  .toggle {
+    display: inline-flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .toggle-label-left, .toggle-label-right {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--muted);
+    transition: color 0.25s;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggle[data-state="real"] .toggle-label-right,
+  .toggle[data-state="polished"] .toggle-label-left {
+    color: var(--navy);
+    font-weight: 700;
+  }
+  .toggle-switch {
+    width: 60px; height: 30px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6BC4B8 0%, #7CB6D6 100%);
+    border: 2px solid var(--navy);
+    position: relative;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--navy);
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 3px;
+    transform: translateY(-50%);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 1px 1px 0 var(--navy);
+    transition: left 0.3s var(--ease-elastic);
+  }
+  .toggle[data-state="real"] .toggle-switch::after {
+    left: calc(100% - 23px);
+  }
+  .toggle[data-state="real"] .toggle-switch {
+    background: linear-gradient(90deg, #FFD24A 0%, #F25C54 100%);
+  }
+
+  /* HERO GRID — text takes more room, photo slimmer & sits further right */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.95fr) minmax(240px, 0.8fr);
+    gap: clamp(24px, 3.5vw, 56px);
+    align-items: start;
+  }
+  /* Hero right uses an internal grid so both photo-slots overlap in row 1
+     and the socials sit directly below in row 2 — preventing the empty
+     dead-space that was caused by stacked invisible photo-slots.
+     align-self: center vertically centres the photo block against the bio. */
+  .hero-right {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    align-self: center;
+  }
+  .hero-right .photo-slot {
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .hero-right .socials {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-right { position: static; }
+  }
+
+  .bio {
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.75;
+    color: var(--navy);
+    position: relative;
+  }
+  .bio a { color: var(--navy); border-bottom: 2px solid var(--mustard); transition: background 0.2s; }
+  .bio a:hover { background: var(--yellow); }
+  .bio-real { display: none; line-height: 1.95; font-size: clamp(15px, 1.15vw, 17px); }
+  .hero[data-state="real"] .bio-polished { display: none; }
+  .hero[data-state="real"] .bio-real { display: block; }
+  /* Drive toggle visual from .hero[data-state] instead of toggle button */
+  .hero[data-state="real"] .toggle-switch { background: linear-gradient(90deg, #FFD24A 0%, #F25C54 100%); }
+  .hero[data-state="real"] .toggle-switch::after { left: calc(100% - 23px); }
+  .hero[data-state="real"] .toggle-label-right { color: var(--navy); font-weight: 700; }
+  .hero[data-state="real"] .toggle-label-left { color: var(--muted); font-weight: 600; }
+  .hero[data-state="polished"] .toggle-label-left { color: var(--navy); font-weight: 700; }
+  .hero[data-state="polished"] .toggle-label-right { color: var(--muted); font-weight: 600; }
+
+  /* STRIKETHROUGH — uses native text-decoration so it works across
+     multi-line wrapped spans, with a colour fade-in for the animation. */
+  .strike {
+    color: var(--muted);
+    opacity: 0.9;
+    text-decoration: line-through transparent;
+    text-decoration-thickness: 2.5px;
+    text-decoration-skip-ink: none;
+    transition: text-decoration-color 0.45s var(--ease-out), color 0.4s;
+    transition-delay: var(--strike-delay, 0s);
+  }
+  .reveal .strike {
+    text-decoration-color: var(--navy);
+  }
+
+  /* HIGHLIGHT ANIMATION — bigger, bold, with yellow swipe */
+  .hl {
+    display: inline-block;
+    position: relative;
+    font-weight: 900;
+    font-size: 1.3em;       /* clearly larger than body for emphasis */
+    line-height: 1.25;
+    color: var(--navy);
+    padding: 2px 8px;
+    margin: 0 2px;
+    z-index: 1;
+    letter-spacing: -0.005em;
+  }
+  .hl::before {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 1px; top: 1px;
+    width: 0%;
+    background: var(--yellow);
+    z-index: -1;
+    transform: skew(-4deg);
+    transition: width 0.55s var(--ease-out);
+    transition-delay: var(--hl-delay, 0s);
+    border-radius: 2px;
+  }
+  .reveal .hl::before { width: 100%; }
+
+  /* Stagger highlights/strikes — delays set via JS for reliability */
+
+  /* HERO PHOTO SLOTS */
+  .hero-right .photo-slot {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border: 3px solid var(--navy);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(135deg, #FFE9C0, #F2E2C0);
+    box-shadow: 8px 8px 0 var(--mustard), 8px 8px 0 2px var(--navy);
+  }
+  .photo-frame {
+    position: absolute; inset: 0;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .photo-polished { opacity: 1; transform: scale(1); z-index: 2; }
+  .photo-real { opacity: 0; transform: scale(0.96); z-index: 1; pointer-events: none; }
+  .hero[data-state="real"] .photo-polished { opacity: 0; transform: scale(0.96); pointer-events: none; z-index: 1; }
+  .hero[data-state="real"] .photo-real { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 2; }
+  /* Mobile (stacked) – only one photo visible at a time */
+  @media (max-width: 980px) {
+    .hero-right .photo-real { display: none; }
+    .hero[data-state="real"] .photo-real { display: block; }
+    .hero[data-state="real"] .photo-polished { display: none; }
+  }
+
+  /* IMG inside slots */
+  .photo-slot img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+  }
+  .photo-slot img.broken { display: none; }
+  .photo-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; text-align: center;
+    background: linear-gradient(135deg, #FFE9C0, #F2E2C0);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .photo-placeholder.hidden { display: none; }
+  .ph-label {
+    font-size: 11px; letter-spacing: 0.2em;
+    font-weight: 700; color: var(--mustard-dark, #8B6914);
+    margin-bottom: 12px;
+  }
+  .ph-icon { font-size: 48px; margin-bottom: 12px; line-height: 1; }
+  .ph-text {
+    font-size: 13px; color: var(--navy);
+    margin-bottom: 8px; font-weight: 600;
+  }
+  .photo-placeholder code {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    background: rgba(26, 34, 56, 0.1);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--navy);
+    word-break: break-all;
+  }
+
+  /* Social icons inside hero-right */
+  .hero-right .socials {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+  }
+  .socials a {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--navy);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform 0.18s var(--ease-elastic), box-shadow 0.18s;
+    box-shadow: 2px 2px 0 var(--navy);
+  }
+  .socials a:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--navy);
+  }
+  .socials a:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--navy);
+  }
+  .socials svg { width: 22px; height: 22px; }
+
+  @media (max-width: 980px) {
+    .hero-right .socials { justify-content: center; }
+  }
+
+  /* =====================================================
+     JOURNEY
+  ===================================================== */
+  .journey {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .section-title {
+    font-weight: 900;
+    font-size: clamp(32px, 4.5vw, 56px);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+  .section-title .bang { color: var(--mustard); }
+  .section-sub {
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--muted);
+    margin-bottom: clamp(40px, 6vh, 72px);
+    max-width: 600px;
+  }
+
+  /* Journey container — tightened to fit one fold */
+  .journey { padding: clamp(40px, 6vh, 72px) 0; }
+  .journey .section-sub { margin-bottom: clamp(28px, 4vh, 44px); }
+
+  /* Phases timeline */
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(12px, 1.5vw, 22px);
+    position: relative;
+    align-items: stretch;
+  }
+  .phases::before {
+    content: '';
+    position: absolute;
+    top: 72px; left: 4%; right: 4%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--forest), var(--red), var(--mustard), var(--clay), var(--teal));
+    border-radius: 2px;
+    z-index: 0;
+    opacity: 0.4;
+  }
+  @media (max-width: 900px) {
+    .phases { grid-template-columns: 1fr; gap: 28px; }
+    .phases::before { display: none; }
+  }
+
+  .phase {
+    position: relative; z-index: 1;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.6s var(--ease-out), transform 0.7s var(--ease-out);
+    display: flex; flex-direction: column;
+  }
+  .phase.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .phase-city {
+    font-weight: 800;
+    font-size: clamp(15px, 1.3vw, 18px);
+    margin-bottom: 10px;
+    color: var(--navy);
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+  .phase-emoji {
+    display: flex; justify-content: center; align-items: center;
+    font-size: clamp(34px, 3.4vw, 44px);
+    line-height: 1;
+    height: 56px;
+    margin-bottom: 10px;
+    filter: drop-shadow(2px 2px 0 rgba(26,34,56,0.15));
+    transition: transform 0.3s var(--ease-elastic);
+  }
+  .phase:hover .phase-emoji {
+    transform: scale(1.15) rotate(-4deg);
+  }
+  .phase-year {
+    text-align: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.06em;
+  }
+  .phase-level {
+    text-align: center;
+    font-weight: 900;
+    font-size: clamp(11px, 0.95vw, 13px);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    padding: 6px 4px;
+    border-top: 2px dashed var(--line);
+    border-bottom: 2px dashed var(--line);
+    color: var(--navy);
+  }
+  .phase-card {
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-radius: var(--radius);
+    padding: 14px 14px 12px;
+    box-shadow: 4px 4px 0 var(--navy);
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .phase-bullets { list-style: none; padding: 0; margin-bottom: 10px; }
+  .phase-bullets li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    margin-bottom: 5px;
+    color: var(--navy);
+  }
+  .phase-bullets li::before {
+    content: '';
+    position: absolute; left: 0; top: 6px;
+    width: 7px; height: 7px;
+    background: var(--mustard);
+    border: 1.5px solid var(--navy);
+    border-radius: 2px;
+  }
+  .phase-aka {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 2px dashed var(--line);
+  }
+  .phase-aka-label {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--clay);
+    line-height: 1;
+  }
+  .phase-aka-text {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--navy);
+    margin-top: 3px;
+  }
+
+  /* Journey CTAs — Resume + Marketing Portfolio download buttons */
+  .journey-cta {
+    margin-top: clamp(32px, 5vh, 56px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(14px, 2vw, 22px);
+    justify-content: center;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 26px;
+    background: var(--cream);
+    color: var(--navy);
+    border: 3px solid var(--navy);
+    border-radius: var(--radius);
+    box-shadow: 6px 6px 0 var(--navy);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    transition: transform 0.18s var(--ease-elastic), box-shadow 0.18s, background 0.18s;
+    min-width: 240px;
+  }
+  .cta-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--navy);
+    background: var(--yellow);
+  }
+  .cta-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--navy);
+  }
+  .cta-btn .cta-icon { font-size: 28px; line-height: 1; }
+  .cta-btn .cta-text { display: flex; flex-direction: column; line-height: 1.15; text-align: left; flex: 1; }
+  .cta-btn .cta-line1 {
+    font-size: 11px; letter-spacing: 0.15em;
+    color: var(--muted); font-weight: 700;
+    text-transform: uppercase;
+  }
+  .cta-btn .cta-line2 {
+    font-size: 17px; font-weight: 900;
+    color: var(--navy);
+  }
+  .cta-btn .cta-arrow {
+    font-size: 22px;
+    color: var(--mustard);
+    font-weight: 900;
+    transition: transform 0.18s;
+  }
+  .cta-btn:hover .cta-arrow { transform: translateY(3px); }
+  .cta-primary { background: var(--mustard); }
+  .cta-primary:hover { background: var(--yellow); }
+  .cta-primary .cta-line1 { color: rgba(26,34,56,0.65); }
+  .cta-secondary .cta-arrow { color: var(--clay); }
+
+  /* =====================================================
+     GAME SECTION
+  ===================================================== */
+  .game-section {
+    background: var(--cream);
+    text-align: center;
+  }
+  .game-section .section-title { text-align: center; }
+  .game-section .section-sub {
+    text-align: center;
+    margin: 0 auto clamp(32px, 6vh, 56px);
+    font-family: 'Caveat', cursive;
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--clay);
+    font-weight: 600;
+  }
+  .game-frame-wrap {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    border: 4px solid var(--navy);
+    box-shadow: 12px 12px 0 var(--mustard), 12px 12px 0 2px var(--navy);
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .game-frame-wrap iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+  }
+  .game-launch-mobile {
+    display: none;
+    margin: 24px auto 0;
+    padding: 16px 24px;
+    background: var(--mustard);
+    color: var(--navy);
+    font-weight: 700;
+    border: 3px solid var(--navy);
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 var(--navy);
+    font-size: 16px;
+  }
+  @media (max-width: 600px) {
+    /* On small phones, iframe gets unusable. Show CTA instead. */
+    .game-frame-wrap { display: none; }
+    .game-launch-mobile { display: inline-block; }
+  }
+
+  /* =====================================================
+     LIFE OUTSIDE WORK
+  ===================================================== */
+  .life-outside {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .life-layout {
+    display: grid;
+    grid-template-columns: minmax(340px, 1fr) minmax(0, 1.25fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .life-layout { grid-template-columns: 1fr; }
+  }
+
+  /* Reel block */
+  .reel-wrap {
+    position: sticky; top: 88px;
+    display: flex; flex-direction: column;
+    gap: 14px;
+    align-self: start;
+  }
+  @media (max-width: 980px) {
+    .reel-wrap { position: static; max-width: 420px; margin: 0 auto; }
+  }
+  .reel-frame {
+    width: 100%;
+    aspect-ratio: 9 / 16;        /* matches Instagram Reel's native vertical format */
+    max-height: 75vh;
+    border: 3px solid var(--navy);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 10px 10px 0 var(--clay), 10px 10px 0 2px var(--navy);
+    background: var(--navy);
+    position: relative;
+  }
+  .reel-iframe,
+  .reel-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+    z-index: 2;
+    object-fit: cover;
+    background: var(--ink);
+    display: block;
+    cursor: pointer;
+  }
+  .reel-video.missing { display: none; }
+
+  /* Mute / unmute toggle button overlaid on the reel */
+  .reel-mute {
+    position: absolute;
+    top: 12px; right: 12px;
+    z-index: 4;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 12px 8px 10px;
+    background: rgba(15, 20, 34, 0.72);
+    color: var(--cream);
+    border: 2px solid var(--cream);
+    border-radius: 999px;
+    font-family: inherit; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.04em;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    transition: background 0.18s, transform 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .reel-mute:hover { background: var(--navy); }
+  .reel-mute:active { transform: scale(0.96); }
+  .reel-mute svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .reel-mute .ic-unmuted { display: none; }
+  .reel-mute[aria-pressed="false"] .ic-muted { display: none; }
+  .reel-mute[aria-pressed="false"] .ic-unmuted { display: block; }
+  .reel-mute[aria-pressed="false"] .reel-mute-label { display: none; }
+  /* Compact (icon-only) once unmuted */
+  .reel-mute[aria-pressed="false"] {
+    padding: 8px;
+  }
+  /* Hide when no video loaded */
+  .reel-video.missing ~ .reel-mute { display: none; }
+  .reel-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #2D3550, #1A2238);
+    color: var(--cream);
+    text-align: center;
+    z-index: 1;
+  }
+  .reel-placeholder.visible { z-index: 3; }
+  .reel-placeholder .ph-label {
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--mustard);
+    margin-bottom: 12px; font-weight: 700;
+  }
+  .reel-placeholder .ph-icon { font-size: 56px; margin-bottom: 14px; line-height: 1; }
+  .reel-placeholder .ph-text {
+    font-size: 13px; line-height: 1.65;
+    color: var(--cream); margin-bottom: 16px;
+    opacity: 0.85;
+  }
+  .reel-placeholder code {
+    background: rgba(255, 235, 71, 0.15);
+    color: var(--mustard);
+    padding: 2px 6px; border-radius: 3px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+  }
+  .reel-fallback-link {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--mustard);
+    color: var(--navy);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    border: 2px solid var(--cream);
+    box-shadow: 3px 3px 0 var(--cream);
+    text-decoration: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .reel-fallback-link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--cream);
+  }
+  .reel-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--clay);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  /* Cards grid */
+  .life-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: clamp(14px, 1.4vw, 18px);
+  }
+  .life-card {
+    background: var(--cream);
+    border: 2px solid var(--navy);
+    border-radius: var(--radius);
+    padding: 18px 18px 16px;
+    box-shadow: 4px 4px 0 var(--navy);
+    transition: transform 0.2s var(--ease-elastic), box-shadow 0.2s;
+    opacity: 0;
+    transform: translateY(20px);
+    color: var(--navy);
+    text-decoration: none;
+    display: flex; flex-direction: column;
+  }
+  .life-card-wide {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #FFE9C0 0%, var(--cream) 100%);
+  }
+  .life-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s var(--ease-out);
+  }
+  .life-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 var(--navy);
+    background: var(--yellow);
+  }
+  .life-card-wide:hover { background: linear-gradient(135deg, var(--yellow), #FFE9C0); }
+
+  /* Platform badge — makes linked cards clearly clickable */
+  .life-card.has-link { position: relative; }
+  .life-card.has-link::after {
+    content: 'OPEN ON ' attr(data-platform) ' \2197';
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 9px; font-weight: 800;
+    letter-spacing: 0.12em;
+    padding: 5px 8px;
+    background: var(--navy);
+    color: var(--mustard);
+    border-radius: 4px;
+    line-height: 1;
+    pointer-events: none;
+    transition: background 0.18s, color 0.18s;
+  }
+  .life-card.has-link[data-platform="Strava"]::after  { background: #FC4C02; color: #fff; }
+  .life-card.has-link[data-platform="Goodreads"]::after { background: #553B08; color: #F4F1EA; }
+  .life-card.has-link[data-platform="Substack"]::after  { background: #FF6719; color: #fff; }
+  .life-card.has-link:hover::after { transform: translateY(-1px); }
+  .life-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+    line-height: 1;
+    display: inline-block;
+  }
+  .life-card-wide .life-icon { font-size: 42px; }
+  .life-title {
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .life-card-wide .life-title { font-size: 22px; }
+  .life-stat {
+    font-family: 'Caveat', cursive;
+    color: var(--clay);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.15;
+  }
+  .life-card-wide .life-stat { font-size: 22px; }
+  .life-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .life-card-wide .life-desc { font-size: 14px; }
+
+  /* =====================================================
+     CONTACT
+  ===================================================== */
+  .contact {
+    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+  .contact-photo {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    max-width: 360px;
+    margin: 0 auto;
+    border: 3px solid var(--navy);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: linear-gradient(135deg, #F8D8C3, #E9B89A);
+    box-shadow: 8px 8px 0 var(--forest), 8px 8px 0 2px var(--navy);
+  }
+  /* (removed .pick-me-tag — the sign is already in the actual photo) */
+  .contact-heading {
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .contact-heading .accent {
+    position: relative; display: inline-block;
+  }
+  .contact-heading .accent::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 6%;
+    height: 28%;
+    background: var(--yellow);
+    z-index: -1;
+    transform: skew(-3deg);
+    opacity: 0.6;
+  }
+  .contact-sub {
+    font-size: clamp(16px, 1.6vw, 20px);
+    color: var(--muted);
+    margin-bottom: 32px;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+  .contact-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .contact-link {
+    display: flex; align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--paper);
+    border: 2px solid var(--navy);
+    border-radius: var(--radius-sm);
+    box-shadow: 3px 3px 0 var(--navy);
+    font-weight: 700;
+    transition: transform 0.18s var(--ease-elastic), box-shadow 0.18s, background 0.18s;
+    color: var(--navy);
+  }
+  .contact-link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--navy);
+    background: var(--yellow);
+  }
+  .contact-link:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--navy);
+  }
+  .contact-link svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .contact-link span {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  /* =====================================================
+     FOOTER
+  ===================================================== */
+  .footer {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 40px 0;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+  }
+  .footer .pixel {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--mustard);
+    margin-top: 10px;
+  }
+  .footer a { color: var(--yellow); }
+
+  /* =====================================================
+     UTIL
+  ===================================================== */
+  .scroll-margin { scroll-margin-top: 80px; }
+</style>
+</head>
+<body>
+
+<!-- ========================= NAV ========================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand"><span class="brand-hash">#</span>ShreeTries</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about" class="active">About</a>
+      <a href="#work">Work</a>
+      <a href="#life-outside">Life Outside Work</a>
+      <a href="#next">Next?</a>
+    </nav>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ========================= HERO ========================= -->
+<section id="about" class="hero scroll-margin">
+  <div class="container hero-container">
+
+    <div class="hero-grid">
+      <div class="hero-left">
+        <h1 class="hero-title">
+          Built for <span class="accent">Distance</span>,<br>
+          Wired for <span class="accent">Speed</span>.
+        </h1>
+
+        <div class="toggle" id="bioToggle" data-state="polished">
+          <span class="toggle-label-left">Polished</span>
+          <button class="toggle-switch" aria-label="Switch bio" id="bioToggleBtn"></button>
+          <span class="toggle-label-right">Real</span>
+        </div>
+
+        <!-- POLISHED -->
+        <div class="bio bio-polished">
+          Hi, I am Shreeniwas Jagdale, Builder &amp; business generalist at heart; 4 years across growth, strategy, operations, and GTM. Most recently, a Founding Brand GM at <a href="https://seekho.in" target="_blank" rel="noopener"><strong>Seekho</strong></a>, reporting directly to the CEO and driving the company's highest-priority bet: the first-ever national brand campaign. Before that, at <a href="https://www.itcportal.com" target="_blank" rel="noopener"><strong>ITC</strong></a>, worked shoulder-to-shoulder with the COO on business operations and process excellence — built process + people systems across large manufacturing systems. AI-native operator who ships products in days, not quarters. 2X Ironman 70.3 finisher, drummer, trekker and swimmer off the clock — <a href="https://www.iitm.ac.in" target="_blank" rel="noopener">IIT Madras'</a> Institute Blues Award for all-rounder excellence; built for hard problems, big calls, and a good time.
+        </div>
+
+        <!-- REAL -->
+        <div class="bio bio-real" id="bioReal">
+          <span class="strike">Hi, I am Shreeniwas Jagdale,</span> <span class="hl">Shree</span> <span class="strike">Builder &amp; business generalist at heart; 4 years across growth, strategy, operations, and GTM.</span> <span class="hl">Gets shit done.</span> <span class="strike">Most recently, a Founding Brand GM at Seekho, reporting directly to the CEO and driving the company's highest-priority bet: the first-ever national brand campaign.</span> <span class="hl">High Ownership in Uncertainty.</span> <span class="strike">Before that, at ITC, worked shoulder-to-shoulder with the COO on business operations and process excellence — built process + people systems across large manufacturing systems.</span> <span class="hl">Execution at Scale.</span> <span class="strike">AI-native operator who ships products in days, not quarters with high quality.</span> <span class="hl">Aggressive Experimentation.</span> <span class="strike">2X Ironman 70.3 finisher, 10+ running races,</span> <span class="hl">Endurance &amp; Discipline.</span> <span class="strike">drummer</span> <span class="hl">Consistent.</span> <span class="strike">, trekker</span> <span class="hl">Curious.</span> <span class="strike">and swimmer off the clock — IIT Madras' Institute Blues Award for all-rounder excellence;</span> <span class="hl">Long-term Thinking.</span> <span class="strike">built for big calls, and a good time.</span> <span class="hl">Reliable Team Player.</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <!-- POLISHED PORTRAIT -->
+        <div class="photo-slot photo-frame photo-polished" id="photoPolished">
+          <img src="photos/POLISHED%20Image.png" alt="Shreeniwas Jagdale" loading="eager">
+          <div class="photo-placeholder">
+            <div class="ph-label">PHOTO SLOT</div>
+            <div class="ph-icon">📸</div>
+            <div class="ph-text">Drop your polished portrait at</div>
+            <code>photos/POLISHED Image.png</code>
+          </div>
+        </div>
+
+        <!-- REAL/COLLAGE PORTRAIT -->
+        <div class="photo-slot photo-frame photo-real" id="photoReal">
+          <img src="photos/REAL%20Image.png" alt="Shreeniwas Jagdale - facets collage" loading="lazy">
+          <div class="photo-placeholder">
+            <div class="ph-label">COLLAGE SLOT</div>
+            <div class="ph-icon">🎨</div>
+            <div class="ph-text">Drop your facets collage at</div>
+            <code>photos/REAL Image.png</code>
+          </div>
+        </div>
+
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/shreeniwas-jagdale-a71875198/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+          </a>
+          <a href="https://substack.com/@shreeniwasjagdale" target="_blank" rel="noopener" aria-label="Substack">
+            <svg viewBox="0 0 24 24" fill="#FF6719"><path d="M22 4H2v3h20zM2 9v11l10-5 10 5V9z"/></svg>
+          </a>
+          <a href="https://www.strava.com/athletes/69022794" target="_blank" rel="noopener" aria-label="Strava">
+            <svg viewBox="0 0 24 24" fill="#FC4C02"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.599h4.172L10.463 0l-7 13.828h4.172"/></svg>
+          </a>
+          <a href="https://www.instagram.com/shreetries/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFD600"/><stop offset="0.5" stop-color="#FF1744"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs><path fill="url(#ig)" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.5-3a1 1 0 100 2 1 1 0 000-2z"/></svg>
+          </a>
+          <a href="https://www.goodreads.com/user/show/164990215-shreeniwas-jagdale" target="_blank" rel="noopener" aria-label="Goodreads">
+            <svg viewBox="0 0 24 24" fill="#553B08"><path d="M19 2v20l-3-2-4 2-4-2-3 2V2zm-7 5a3 3 0 100 6 3 3 0 000-6z" opacity=".15"/><rect x="4" y="2" width="16" height="20" rx="1" fill="#F4F1EA"/><path fill="#553B08" d="M14.5 7.5c0-.55-.45-1-1-1H12v6.4c-.5.5-1.3.85-2.2.85-1.65 0-3-1.35-3-3s1.35-3 3-3c.75 0 1.43.28 1.95.74V7c-.6-.32-1.27-.5-1.95-.5-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5c.83 0 1.6-.23 2.27-.62.13.36.46.62.86.62.55 0 1-.45 1-1V7.5z"/></svg>
+          </a>
+          <a href="https://topmate.io/shreeniwas_jagdale" target="_blank" rel="noopener" aria-label="Topmate">
+            <svg viewBox="0 0 24 24" fill="#FF6B35"><circle cx="12" cy="12" r="10"/><text x="12" y="16" font-family="Inter,sans-serif" font-weight="900" font-size="11" fill="white" text-anchor="middle">T</text></svg>
+          </a>
+          <a href="https://github.com/ShreeniwasJagdale" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="#181717"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= JOURNEY ========================= -->
+<section id="work" class="journey section-pad scroll-margin">
+  <div class="container">
+    <h2 class="section-title">Journey So Far<span class="bang">!</span></h2>
+    <p class="section-sub">Five chapters, one motto: <strong>KEEP UP THE FIGHT.</strong></p>
+
+    <div class="phases" id="phases">
+
+      <!-- SATARA -->
+      <div class="phase phase-1" data-phase="0">
+        <div class="phase-city">Satara</div>
+        <div class="phase-emoji">🌾</div>
+        <div class="phase-year">1999 — 2015</div>
+        <div class="phase-level">OPEN WORLD</div>
+        <div class="phase-card">
+          <ul class="phase-bullets">
+            <li>Explored everything I could get access to</li>
+            <li>Sports, academics, competitions — tried it all</li>
+            <li>Tier-3 city kept me close to real problems</li>
+          </ul>
+          <div class="phase-aka">
+            <div class="phase-aka-label">AKA</div>
+            <div class="phase-aka-text">Kept my parents busy with regular school visits — mostly complaints. Eventually dropped out of school for a stretch.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PUNE -->
+      <div class="phase phase-2" data-phase="1">
+        <div class="phase-city">Pune</div>
+        <div class="phase-emoji">📚</div>
+        <div class="phase-year">2015 — 2017</div>
+        <div class="phase-level">THE GRIND</div>
+        <div class="phase-card">
+          <ul class="phase-bullets">
+            <li>Stayed away from Kota &amp; Sri Chaitanya</li>
+            <li>Cracked JEE &amp; co without losing vibes</li>
+            <li>Learned to delay gratification</li>
+          </ul>
+          <div class="phase-aka">
+            <div class="phase-aka-label">AKA</div>
+            <div class="phase-aka-text">Got humbled by mock tests. Accidentally bulked 20 kgs — had to fix it later.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IITM -->
+      <div class="phase phase-3" data-phase="2">
+        <div class="phase-city">IITM, Chennai</div>
+        <div class="phase-emoji">🏛️</div>
+        <div class="phase-year">2017 — 2022</div>
+        <div class="phase-level">TRANSFORMATION</div>
+        <div class="phase-card">
+          <ul class="phase-bullets">
+            <li>Played, led &amp; built across sports + tech</li>
+            <li>Institute Sports Secretary · 10,000+ students</li>
+            <li>Institute Blues Award · Inter-IIT, Raftar</li>
+          </ul>
+          <div class="phase-aka">
+            <div class="phase-aka-label">AKA</div>
+            <div class="phase-aka-text">Found my people, made memories, swam till exhaustion, lived all 5 years properly.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ITC -->
+      <div class="phase phase-4" data-phase="3">
+        <div class="phase-city">ITC, Bengaluru</div>
+        <div class="phase-emoji">⚙️</div>
+        <div class="phase-year">2022 — 2025</div>
+        <div class="phase-level">SYSTEM WORLD</div>
+        <div class="phase-card">
+          <ul class="phase-bullets">
+            <li>Tried to EXCEL processes (literally)</li>
+            <li>BizOps, analytics, systems, L&amp;D</li>
+            <li>Understood scale — people, machines, decisions</li>
+          </ul>
+          <div class="phase-aka">
+            <div class="phase-aka-label">AKA</div>
+            <div class="phase-aka-text">Ate enough biscuits to realize I used to run sub-20 5K — led to a Half Ironman.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEEKHO -->
+      <div class="phase phase-5" data-phase="4">
+        <div class="phase-city">Seekho, Bengaluru</div>
+        <div class="phase-emoji">🔥</div>
+        <div class="phase-year">2025 — 2026</div>
+        <div class="phase-level">CHAOS &amp; CREATION</div>
+        <div class="phase-card">
+          <ul class="phase-bullets">
+            <li>Built brand marketing from scratch</li>
+            <li>Cross-functional: product, marketing, content</li>
+            <li>Intern → Founding Brand GM in &lt; 1 year</li>
+          </ul>
+          <div class="phase-aka">
+            <div class="phase-aka-label">AKA</div>
+            <div class="phase-aka-text">Spent ₹40Cr on brand marketing. Got CXOs to believe in brand. Discovered what I'm truly capable of.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Downloads / CTAs -->
+    <div class="journey-cta">
+      <a href="resume.pdf" download class="cta-btn cta-primary">
+        <span class="cta-icon">📄</span>
+        <span class="cta-text"><span class="cta-line1">Download</span><span class="cta-line2">Resume</span></span>
+        <span class="cta-arrow">↓</span>
+      </a>
+      <a href="marketing-portfolio.pdf" download class="cta-btn cta-secondary">
+        <span class="cta-icon">📊</span>
+        <span class="cta-text"><span class="cta-line1">View</span><span class="cta-line2">Marketing Portfolio</span></span>
+        <span class="cta-arrow">↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= GAME ========================= -->
+<section id="life-journey" class="game-section section-pad scroll-margin">
+  <div class="container">
+    <h2 class="section-title">Life Journey</h2>
+    <p class="section-sub">I've played this game. Time for you to do it.</p>
+    <div class="game-frame-wrap">
+      <iframe src="game.html" title="Shreeniwas Jagdale - A Life in 5 Levels" loading="lazy" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    <a href="game.html" target="_blank" rel="noopener" class="game-launch-mobile">▶ PLAY ON FULL SCREEN</a>
+  </div>
+</section>
+
+<!-- ========================= LIFE OUTSIDE WORK ========================= -->
+<section id="life-outside" class="life-outside section-pad scroll-margin">
+  <div class="container">
+    <h2 class="section-title">Life Outside Work</h2>
+    <p class="section-sub">The hours that don't show up on a CV — but absolutely show up in the work.</p>
+
+    <div class="life-layout">
+
+      <!-- REEL SLOT (left) — self-hosted MP4 for reliable muted autoplay -->
+      <div class="reel-wrap">
+        <div class="reel-frame" id="reelFrame">
+          <video
+            class="reel-video" id="reelVideo"
+            src="photos/reel.mp4"
+            poster="photos/reel-poster.jpg"
+            autoplay muted loop playsinline preload="metadata"
+            aria-label="Shreeniwas — Life Outside Work reel"
+          ></video>
+          <button class="reel-mute" id="reelMute" type="button" aria-label="Unmute reel" aria-pressed="true">
+            <!-- Muted icon (default) -->
+            <svg class="ic-muted" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm12.5 3a4.5 4.5 0 00-2.5-4v8a4.5 4.5 0 002.5-4z" opacity=".55"/>
+              <path fill="currentColor" d="M19.07 4.93l-1.41 1.41L21.17 9.9 17.66 13.4l1.41 1.41L24 9.51l-4.93-4.58zM16.59 9.17L22 14.59l-1.41 1.42-5.42-5.42z" opacity="0"/>
+              <line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <!-- Unmuted icon -->
+            <svg class="ic-unmuted" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path fill="currentColor" d="M14 8.5v7a4.5 4.5 0 000-7z"/>
+              <path fill="currentColor" d="M14 5v2.1a5 5 0 010 9.8V19a7 7 0 000-14z"/>
+            </svg>
+            <span class="reel-mute-label">Tap for sound</span>
+          </button>
+          <div class="reel-placeholder">
+            <div class="ph-label">REEL SLOT</div>
+            <div class="ph-icon">🎬</div>
+            <div class="ph-text">Drop your reel MP4 at</div>
+            <code>photos/reel.mp4</code>
+            <a href="https://www.instagram.com/reel/DDlrHzOBqL9/" target="_blank" rel="noopener" class="reel-fallback-link">
+              ▶ Open on Instagram
+            </a>
+          </div>
+        </div>
+        <div class="reel-caption">📍 from the field</div>
+      </div>
+
+      <!-- CARDS (right) -->
+      <div class="life-grid">
+
+        <a href="https://www.strava.com/athletes/69022794" target="_blank" rel="noopener" class="life-card life-card-wide has-link" data-platform="Strava">
+          <div class="life-icon">🏅</div>
+          <div class="life-title">Endurance Sports</div>
+          <div class="life-stat">2X Ironman 70.3 · 10+ races · Hyrox · Yoddha</div>
+          <div class="life-desc">Swim → Bike → Run. Long, slow, repeat. The clearest mirror I've ever held up to myself — and the most honest meetings I take all week.</div>
+        </a>
+
+        <div class="life-card">
+          <div class="life-icon">⛰️</div>
+          <div class="life-title">Trekking</div>
+          <div class="life-stat">30+ Sahyadri treks &amp; counting</div>
+          <div class="life-desc">Born in Shivaji Maharaj's territory. 30+ Sahyadri treks and counting. Himalayas on the radar.</div>
+        </div>
+
+        <div class="life-card">
+          <div class="life-icon">🥁</div>
+          <div class="life-title">Drumming</div>
+          <div class="life-stat">Trinity Grade 1 in 3 months</div>
+          <div class="life-desc">Started from a YouTube tutorial. Cleared Trinity Grade 1 within 3 months. Many more grades to unlock.</div>
+        </div>
+
+        <a href="https://www.goodreads.com/user/show/164990215-shreeniwas-jagdale" target="_blank" rel="noopener" class="life-card has-link" data-platform="Goodreads">
+          <div class="life-icon">📚</div>
+          <div class="life-title">Reading</div>
+          <div class="life-stat">fiction over self-help</div>
+          <div class="life-desc">I read mostly fiction and say no to self-help. I read to build worldviews — the kind Claude or ChatGPT can't manufacture for you.</div>
+        </a>
+
+        <a href="https://substack.com/@shreeniwasjagdale" target="_blank" rel="noopener" class="life-card has-link" data-platform="Substack">
+          <div class="life-icon">✍️</div>
+          <div class="life-title">Writing</div>
+          <div class="life-stat">notes → essays → ?</div>
+          <div class="life-desc">Writing is how I figure out what I think. Newsletter brewing.</div>
+        </a>
+
+        <div class="life-card">
+          <div class="life-icon">🤿</div>
+          <div class="life-title">Scuba Diving</div>
+          <div class="life-stat">PADI certified · Open Water Diver</div>
+          <div class="life-desc">A reminder that the world has rooms I haven't walked into yet — and some are 18 metres below sea level.</div>
+        </div>
+
+        <div class="life-card">
+          <div class="life-icon">🍳</div>
+          <div class="life-title">Cooking</div>
+          <div class="life-stat">Satara on a plate, in BLR</div>
+          <div class="life-desc">Making sure every friend of mine in Bengaluru tastes what Satara food actually looks like.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CONTACT ========================= -->
+<section id="next" class="contact section-pad scroll-margin">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-photo photo-slot">
+        <img src="photos/Pick%20me%20First%20Image.png" alt="Shreeniwas with PICK ME FIRST sign" loading="lazy">
+        <div class="photo-placeholder">
+          <div class="ph-label">PHOTO SLOT</div>
+          <div class="ph-icon">🪧</div>
+          <div class="ph-text">Drop your "PICK ME FIRST" photo at</div>
+          <code>photos/Pick me First Image.png</code>
+        </div>
+        <!-- (Removed the "PICK ME FIRST" tag overlay — the sign is already in the actual photo) -->
+        <!-- Fallback SVG hidden behind img when missing -->
+        <svg style="display:none" viewBox="0 0 360 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wallg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#F8D8C3"/>
+              <stop offset="1" stop-color="#E9B89A"/>
+            </linearGradient>
+          </defs>
+          <rect width="360" height="480" fill="url(#wallg)" rx="10"/>
+          <rect x="3" y="3" width="354" height="474" rx="8" fill="none" stroke="#1A2238" stroke-width="2"/>
+          <text x="180" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9A8070" letter-spacing="2">YOUR "PICK ME FIRST" PHOTO HERE</text>
+          <!-- Body / pants -->
+          <path d="M120 480 L120 340 Q120 320 140 320 L220 320 Q240 320 240 340 L240 480 Z" fill="#1F2235"/>
+          <!-- Shirt with stripes -->
+          <path d="M105 340 Q105 260 180 240 Q255 260 255 340 L240 340 L120 340 Z" fill="#F5F0E0"/>
+          <g stroke="#8B8074" stroke-width="2.5" opacity="0.5">
+            <line x1="130" y1="260" x2="130" y2="340"/>
+            <line x1="155" y1="245" x2="155" y2="340"/>
+            <line x1="180" y1="240" x2="180" y2="340"/>
+            <line x1="205" y1="245" x2="205" y2="340"/>
+            <line x1="230" y1="260" x2="230" y2="340"/>
+          </g>
+          <!-- Belt -->
+          <rect x="120" y="340" width="120" height="8" fill="#1A0F08"/>
+          <!-- Neck -->
+          <ellipse cx="180" cy="232" rx="22" ry="14" fill="#B8855E"/>
+          <!-- Face -->
+          <ellipse cx="180" cy="180" rx="50" ry="58" fill="#C99672"/>
+          <!-- Hairnet -->
+          <ellipse cx="180" cy="138" rx="58" ry="20" fill="rgba(255,255,255,0.55)" stroke="#9A9A9A" stroke-width="1"/>
+          <g stroke="#9A9A9A" stroke-width="0.7" fill="none" opacity="0.6">
+            <ellipse cx="180" cy="138" rx="58" ry="20"/>
+            <line x1="125" y1="138" x2="235" y2="138"/>
+            <line x1="140" y1="125" x2="140" y2="155"/>
+            <line x1="160" y1="121" x2="160" y2="155"/>
+            <line x1="180" y1="120" x2="180" y2="156"/>
+            <line x1="200" y1="121" x2="200" y2="155"/>
+            <line x1="220" y1="125" x2="220" y2="155"/>
+          </g>
+          <!-- Hair under hairnet -->
+          <path d="M125 165 Q130 110 180 110 Q230 110 235 165 Q230 135 215 125 Q210 118 180 118 Q150 118 145 125 Q130 135 125 165 Z" fill="#1A0F08" opacity="0.85"/>
+          <!-- Beard -->
+          <path d="M138 205 Q140 245 180 252 Q220 245 222 205 Q215 220 180 222 Q145 220 138 205 Z" fill="#1A0F08"/>
+          <!-- Glasses -->
+          <circle cx="160" cy="180" r="16" fill="none" stroke="#1A2238" stroke-width="3"/>
+          <circle cx="200" cy="180" r="16" fill="none" stroke="#1A2238" stroke-width="3"/>
+          <line x1="176" y1="180" x2="184" y2="180" stroke="#1A2238" stroke-width="3"/>
+          <circle cx="160" cy="180" r="2.5" fill="#1A0F08"/>
+          <circle cx="200" cy="180" r="2.5" fill="#1A0F08"/>
+          <!-- Big smile -->
+          <path d="M152 212 Q180 232 208 212" stroke="#1A0F08" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M154 213 Q180 226 206 213" fill="#FAF6EB" stroke="none"/>
+          <!-- Arm pointing -->
+          <path d="M125 340 Q105 330 110 365 Q115 380 130 372 L155 365" fill="#F5F0E0" stroke="#8B8074" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <div>
+        <h2 class="contact-heading">Let's <span class="accent">build something</span>.</h2>
+        <p class="contact-sub">I'm between chapters — exploring where my next 4 years go. If you're building something where speed + ownership + endurance matter, or you just want to swap notes on training, books, or a half-baked idea — open a thread.</p>
+
+        <div class="contact-links">
+          <a href="mailto:shrinu6174@gmail.com" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#1A2238"><path d="M2 4h20v16H2zm10 9L4 6v12h16V6z"/></svg>
+            <span>Email</span>
+          </a>
+          <a href="https://www.linkedin.com/in/shreeniwas-jagdale-a71875198/" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://www.strava.com/athletes/69022794" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#FC4C02"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.599h4.172L10.463 0l-7 13.828h4.172"/></svg>
+            <span>Strava</span>
+          </a>
+          <a href="https://www.instagram.com/shreetries/" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24"><defs><linearGradient id="ig2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFD600"/><stop offset="0.5" stop-color="#FF1744"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs><path fill="url(#ig2)" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.5-3a1 1 0 100 2 1 1 0 000-2z"/></svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://www.goodreads.com/user/show/164990215-shreeniwas-jagdale" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="1" fill="#F4F1EA"/><path fill="#553B08" d="M14.5 7.5c0-.55-.45-1-1-1H12v6.4c-.5.5-1.3.85-2.2.85-1.65 0-3-1.35-3-3s1.35-3 3-3c.75 0 1.43.28 1.95.74V7c-.6-.32-1.27-.5-1.95-.5-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5c.83 0 1.6-.23 2.27-.62.13.36.46.62.86.62.55 0 1-.45 1-1V7.5z"/></svg>
+            <span>Goodreads</span>
+          </a>
+          <a href="https://substack.com/@shreeniwasjagdale" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#FF6719"><path d="M22 4H2v3h20zM2 9v11l10-5 10 5V9z"/></svg>
+            <span>Substack</span>
+          </a>
+          <a href="https://topmate.io/shreeniwas_jagdale" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#FF6B35"><circle cx="12" cy="12" r="10"/><text x="12" y="16" font-family="Inter,sans-serif" font-weight="900" font-size="11" fill="white" text-anchor="middle">T</text></svg>
+            <span>Topmate</span>
+          </a>
+          <a href="https://github.com/ShreeniwasJagdale" target="_blank" rel="noopener" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="#181717"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="footer">
+  <div>© 2026 Shreeniwas Jagdale · made with ☕ + a lot of <span style="color:var(--yellow);">#ShreeTries</span></div>
+  <div class="pixel">SATARA → PUNE → IITM → ITC → SEEKHO → ?</div>
+</footer>
+
+<script>
+  // Tiny helper — log non-fatally so one section's bug never kills the others.
+  function safe(fn, label) {
+    try { fn(); } catch (err) { try { console.warn('[ShreeTries]', label, err); } catch (_) {} }
+  }
+  const HAS_IO = typeof window.IntersectionObserver === 'function';
+
+  // ============== MOBILE NAV ==============
+  safe(() => {
+    const mt = document.getElementById('mobileToggle');
+    const nl = document.getElementById('navLinks');
+    if (!mt || !nl) return;
+    mt.addEventListener('click', () => {
+      mt.classList.toggle('open');
+      nl.classList.toggle('open');
+    });
+    nl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mt.classList.remove('open');
+      nl.classList.remove('open');
+    }));
+  }, 'mobile-nav');
+
+  // ============== ACTIVE NAV LINK ON SCROLL ==============
+  safe(() => {
+    if (!HAS_IO) return; // graceful skip — not critical
+    const nl = document.getElementById('navLinks');
+    if (!nl) return;
+    const sections = ['about', 'work', 'life-outside', 'next']
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+    const navLinks = nl.querySelectorAll('a');
+    const setActive = (id) => {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    };
+    const scrollObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => scrollObs.observe(s));
+  }, 'active-nav');
+
+  // ============== BIO TOGGLE ==============
+  safe(() => {
+    const hero = document.getElementById('about');
+    const toggle = document.getElementById('bioToggle');
+    const btn = document.getElementById('bioToggleBtn');
+    const bioReal = document.getElementById('bioReal');
+    if (!hero || !toggle || !btn || !bioReal) return;
+
+    hero.setAttribute('data-state', 'polished');
+
+    // Stagger strikes & highlights via CSS custom properties
+    const strikes = bioReal.querySelectorAll('.strike');
+    const highlights = bioReal.querySelectorAll('.hl');
+    strikes.forEach((el, i) => el.style.setProperty('--strike-delay', (i * 0.07) + 's'));
+    highlights.forEach((el, i) => el.style.setProperty('--hl-delay', (0.2 + i * 0.12) + 's'));
+
+    function setToggle(state) {
+      hero.setAttribute('data-state', state);
+      toggle.setAttribute('data-state', state);
+      if (state === 'real') {
+        bioReal.classList.remove('reveal');
+        void bioReal.offsetWidth; // force reflow
+        requestAnimationFrame(() => bioReal.classList.add('reveal'));
+      } else {
+        bioReal.classList.remove('reveal');
+      }
+    }
+    function flip(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      const cur = hero.getAttribute('data-state');
+      setToggle(cur === 'polished' ? 'real' : 'polished');
+    }
+    // Bind to both pointer + touch + click for full mobile reliability
+    ['click', 'touchend'].forEach(evt => btn.addEventListener(evt, flip, { passive: false }));
+    const labelLeft = document.querySelector('.toggle-label-left');
+    const labelRight = document.querySelector('.toggle-label-right');
+    if (labelLeft) ['click','touchend'].forEach(evt => labelLeft.addEventListener(evt, (e)=>{ if(e){e.preventDefault();} setToggle('polished'); }, { passive: false }));
+    if (labelRight) ['click','touchend'].forEach(evt => labelRight.addEventListener(evt, (e)=>{ if(e){e.preventDefault();} setToggle('real'); }, { passive: false }));
+  }, 'bio-toggle');
+
+  // ============== PHOTO SLOT — hide placeholder when image loads ==============
+  safe(() => {
+    document.querySelectorAll('.photo-slot').forEach(slot => {
+      const img = slot.querySelector('img');
+      const ph = slot.querySelector('.photo-placeholder');
+      if (!img) return;
+      const showPlaceholder = () => { img.classList.add('broken'); if (ph) ph.classList.remove('hidden'); };
+      const hidePlaceholder = () => { img.classList.remove('broken'); if (ph) ph.classList.add('hidden'); };
+      if (img.complete) {
+        (img.naturalWidth > 0 ? hidePlaceholder : showPlaceholder)();
+      }
+      img.addEventListener('load', () => { if (img.naturalWidth > 0) hidePlaceholder(); });
+      img.addEventListener('error', showPlaceholder);
+    });
+  }, 'photo-slots');
+
+  // ============== REVEAL ON SCROLL — phases + life cards ==============
+  // SAFETY: if IntersectionObserver is missing OR fails, we show everything after a beat.
+  function revealAll() {
+    document.querySelectorAll('.phase:not(.visible), .life-card:not(.visible)')
+      .forEach(el => el.classList.add('visible'));
+  }
+  if (!HAS_IO) {
+    // No IO support → show everything immediately
+    revealAll();
+  } else {
+    safe(() => {
+      const phases = document.querySelectorAll('.phase');
+      const phaseObs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = parseInt(e.target.dataset.phase, 10) || 0;
+            setTimeout(() => e.target.classList.add('visible'), idx * 180);
+            phaseObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+      phases.forEach(p => phaseObs.observe(p));
+    }, 'journey-observer');
+
+    safe(() => {
+      const cards = document.querySelectorAll('.life-card');
+      const cardObs = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+          if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 80);
+            cardObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+      cards.forEach(c => cardObs.observe(c));
+    }, 'life-observer');
+  }
+
+  // FAILSAFE: regardless of observer behaviour, ensure every reveal element
+  // becomes visible within 2.5s of load — content never gets stuck "missing".
+  window.addEventListener('load', () => setTimeout(revealAll, 2500));
+  setTimeout(revealAll, 4000); // belt + suspenders if 'load' never fires
+
+  // ============== REEL VIDEO — autoplay + placeholder swap ==============
+  // Muted autoplay is allowed by browsers without user gesture. We also
+  // pause when off-screen (save bandwidth) and play when scrolled into view.
+  safe(() => {
+    const frame = document.getElementById('reelFrame');
+    const video = document.getElementById('reelVideo');
+    if (!frame || !video) return;
+    const ph = frame.querySelector('.reel-placeholder');
+
+    const showMissing = () => {
+      video.classList.add('missing');
+      if (ph) ph.classList.add('visible');
+    };
+    const showVideo = () => {
+      video.classList.remove('missing');
+      if (ph) ph.style.display = 'none';
+    };
+
+    video.addEventListener('loadeddata', showVideo);
+    video.addEventListener('error', showMissing);
+    // If the src hasn't loaded yet but readyState is past 0, hide placeholder
+    if (video.readyState >= 2) showVideo();
+
+    // Try to play once metadata is ready (some mobile browsers need this nudge)
+    const tryPlay = () => {
+      const p = video.play();
+      if (p && p.catch) p.catch(() => { /* autoplay blocked — leave first frame visible */ });
+    };
+    video.addEventListener('canplay', tryPlay, { once: true });
+
+    // Pause when scrolled away, play when back in view (perf + UX)
+    if (HAS_IO) {
+      const playObs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) tryPlay();
+          else if (!video.paused) video.pause();
+        });
+      }, { threshold: 0.25 });
+      playObs.observe(frame);
+    }
+
+    // Mute toggle button + tap-anywhere-on-video to unmute
+    const muteBtn = document.getElementById('reelMute');
+    const syncMuteUI = () => {
+      if (!muteBtn) return;
+      muteBtn.setAttribute('aria-pressed', video.muted ? 'true' : 'false');
+      muteBtn.setAttribute('aria-label', video.muted ? 'Unmute reel' : 'Mute reel');
+    };
+    const toggleMute = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      video.muted = !video.muted;
+      if (!video.muted) {
+        // User just gave a gesture — ensure playback continues with sound
+        const p = video.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+      syncMuteUI();
+    };
+    if (muteBtn) {
+      ['click', 'touchend'].forEach(evt => muteBtn.addEventListener(evt, toggleMute, { passive: false }));
+    }
+    // Tap the video itself to toggle too
+    ['click', 'touchend'].forEach(evt => video.addEventListener(evt, toggleMute, { passive: false }));
+    video.addEventListener('volumechange', syncMuteUI);
+    syncMuteUI();
+  }, 'reel-video');
+</script>
+</body>
+</html>
