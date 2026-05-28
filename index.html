@@ -273,11 +273,15 @@
     grid-column: 1;
   }
   @media (max-width: 980px) {
+    /* Tighter top padding so the photo isn't pushed below the fold */
+    .hero { padding: 16px 0 32px; }
+    .hero-title { margin-bottom: 16px; font-size: clamp(30px, 8vw, 44px); }
+    .toggle { margin-bottom: 8px; }
     /* Use flex with order so we can interleave hero-left/hero-right children */
     .hero-grid {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 12px;
     }
     .hero-left, .hero-right { display: contents; }
     .hero-title       { order: 1; }
@@ -286,12 +290,12 @@
     .bio              { order: 4; }
     .skill-bubbles    { order: 5; }
     .hero-right .socials      { order: 6; }
-    /* Smaller photo on mobile — sits right under the toggle so the toggle effect is visible in the first fold */
+    /* Smaller photo on mobile so it fits the first fold */
     .hero-right .photo-slot {
-      max-width: 280px;
+      max-width: 240px;
       width: 100%;
-      margin: 8px auto;
-      box-shadow: 6px 6px 0 var(--mustard), 6px 6px 0 2px var(--navy);
+      margin: 0 auto;
+      box-shadow: 5px 5px 0 var(--mustard), 5px 5px 0 2px var(--navy);
     }
   }
 
@@ -505,11 +509,14 @@
     word-break: break-all;
   }
 
-  /* Social icons inside hero-right */
+  /* Social icons inside hero-right — z-index lifts them ABOVE the photo
+     so the typewriter tooltip can render on top of the portrait. */
   .hero-right .socials {
     display: flex; gap: 12px; flex-wrap: nowrap;
     justify-content: center;
     margin: 0;
+    position: relative;
+    z-index: 10;
   }
   @media (max-width: 980px) {
     .hero-right .socials { gap: 8px; }
@@ -559,7 +566,7 @@
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.18s, transform 0.18s;
-    z-index: 60;
+    z-index: 100;
     letter-spacing: 0.02em;
     line-height: 1.2;
     min-height: 22px;
@@ -1282,11 +1289,25 @@
   .cm-anim-type .cm-emoji { animation: cmType 0.35s ease-in-out infinite; }
   @keyframes cmType { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px) scale(1.05); } }
 
-  .cm-anim-build .cm-emoji { animation: cmBuild 1.4s ease-out infinite; }
-  @keyframes cmBuild { 0% { transform: translateY(-10px); } 50% { transform: translateY(0); } 100% { transform: translateY(-2px); } }
+  .cm-anim-flash .cm-emoji { animation: cmFlash 0.45s ease-in-out infinite; }
+  @keyframes cmFlash {
+    0%,100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18)); }
+    50%     { transform: scale(1.25); filter: drop-shadow(0 4px 14px rgba(255,235,71,0.85)); }
+  }
 
-  .cm-anim-pulse .cm-emoji { animation: cmPulse 0.9s ease-in-out infinite; }
-  @keyframes cmPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+  .cm-anim-blink .cm-emoji { animation: cmBlink 1.8s ease-in-out infinite; }
+  @keyframes cmBlink {
+    0%, 85%, 100% { transform: scaleY(1); }
+    90%           { transform: scaleY(0.1); }
+    95%           { transform: scaleY(1); }
+  }
+
+  .cm-anim-launch .cm-emoji { animation: cmLaunch 1.4s ease-out infinite; }
+  @keyframes cmLaunch {
+    0%   { transform: translateY(6px); }
+    40%  { transform: translateY(-8px); }
+    100% { transform: translateY(6px); }
+  }
 
   .cm-anim-shake .cm-emoji { animation: cmShake 0.15s ease-in-out infinite; }
   @keyframes cmShake {
@@ -1980,18 +2001,19 @@
 
     const mascots = [
       { e: '🏃🏼‍♂️', a: 'run',    t: "Shree runs 5k in 20 mins, can't you spare 2 mins for his website?" },
-      { e: '🏂',            a: 'slide',  t: "Shree slides on waveboard, why don't you slide into his DM? " },
-      { e: '🏊🏼‍♂️', a: 'swim',   t: "keep swimming." },
+      { e: '🏂',            a: 'slide',  t: "Shree slides on a waveboard. Why don't you slide into his DMs?" },
+      { e: '🏊🏼‍♂️', a: 'swim',   t: "Built endurance before algorithms. Keep going." },
       { e: '🚴🏽‍♂️', a: 'roll',   t: "Shree finished 2 Ironmans. You can finish one website." },
-      { e: '📖',            a: 'flip',   t: "40+ books by Shree. You just have one website. Read on ." },
-      { e: '✍🏻',          a: 'wiggle', t: "more to come." },
-      { e: '👨🏾‍💻', a: 'type',   t: "keep clicking." },
-      { e: '🏗️',           a: 'build',  t: "still building." },
-      { e: '👨🏽‍🔬', a: 'pulse',  t: "curious yet?" },
-      { e: '🥁',            a: 'shake',  t: "Drum rolls for you from Shree, explore more about him" },
-      { e: '🧗🏿',          a: 'climb',  t: "keep climbing." },
-      { e: '🤽🏽‍♂️', a: 'splash', t: "dive deeper." },
-      { e: '🏋️🏽‍♂️', a: 'lift',  t: "lift the next fold." }
+      { e: '📖',            a: 'flip',   t: "40+ books by Shree. You just have one website. Read on." },
+      { e: '✍🏻',          a: 'wiggle', t: "Plot twist pending. Don't leave mid-season." },
+      { e: '👨🏾‍💻', a: 'type',   t: "Shipping faster than your “coming soon” side project." },
+      { e: '🥁',            a: 'shake',  t: "Drum rolls for you from Shree. Explore more about him." },
+      { e: '🧗🏿',          a: 'climb',  t: "30+ treks by Shree. Keep climbing to know more about him." },
+      { e: '🤿',            a: 'splash', t: "Surface-level people already left. Respect." },
+      { e: '🏋️🏽‍♂️', a: 'lift',  t: "150Kgs is easy deadlift for Shree. You're not LIFTING the page up?" },
+      { e: '⚡',            a: 'flash',  t: "Either you're impressed or procrastinating professionally." },
+      { e: '👀',            a: 'blink',  t: "Bro's auditing the website like a due diligence deck." },
+      { e: '🚀',            a: 'launch', t: "Low attention span users usually quit by now." }
     ];
 
     const IDLE_MS    = 2000;   // cursor still time before mascot pops
@@ -2061,16 +2083,18 @@
       if (lastX < 0) return; // no cursor activity yet
       ensure();
       const item = pick();
-      // Reset to just the animation class (id stays on element)
       el.className = 'cm-anim-' + item.a;
       emojiEl.textContent = item.e;
-      // Position relative to last cursor
+      // STEP 1: invisibly render the FULL text so we can measure final width
+      textEl.style.visibility = 'hidden';
+      textEl.innerHTML = item.t.replace(/ /g, '&nbsp;') + '<span class="cm-caret"></span>';
+      void el.offsetWidth; // force layout
+      // STEP 2: position based on final width (won't overflow viewport)
       positionNear(lastX, lastY);
-      // Trigger fade-in on next frame
-      requestAnimationFrame(() => {
-        el.classList.add('show');
-      });
-      // Start typewriter
+      // STEP 3: clear, fade in, start typewriter
+      textEl.innerHTML = '<span class="cm-caret"></span>';
+      textEl.style.visibility = '';
+      requestAnimationFrame(() => el.classList.add('show'));
       typeText(item.t);
     }
 
